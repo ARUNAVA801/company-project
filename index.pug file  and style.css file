@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> #{title}</title>
+    style 
+        include ../static/style.css
+</head>
+<body>
+    <nav>
+        <li><a href="">Home</a>  </li>
+        <li> <a href="">about</a> </li>
+        <li> <a href="">contact us</a> </li>
+    </nav>
+    <P>
+        <h1>Hello students , give your details</h1>
+    </P>
+    <div>
+        <container>
+        <form align="center" width="60%" length="60%" method="post">
+        <input type="text" name="Username" value="Enter Your Username"/> <br/> 
+        <input type="email" name="email" value="Enter Your Email" /> <br/> 
+        <textarea type="message" name="message" value="Enter your Message" ></textarea>  <br/> 
+        <input type="submit" name="Send" />
+        </form>
+    </container>
+    
+    </div>
+    
+    
+</html>
+
+
+// css file added
+
+  p{
+      font-family: Arial, Helvetica, sans-serif;
+  }
+
+  a{
+      text-decoration: none;
+  }
+
+  body::before{
+      height:100%;
+      background-color: '/static/metalband3.jog';
+  }
+  nav{
+      background-color: red;
+  }
+  .container{
+      margin: 12px;
+      background-image: 'metalband3.jpg';
+  }
