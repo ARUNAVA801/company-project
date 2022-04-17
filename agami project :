@@ -1,0 +1,102 @@
+var express = require("express");
+var app = express();
+const  port =  5006;
+const hostname = '127.0.0.1';
+const pug = require('pug')
+const fs = require("fs");
+const path = require("path");
+const  mongoose = require('mongoose');
+const bodyparser = require("body-parser")
+ // general config
+ app.set('views', path.join( __dirname , '/views'));
+app.set('view engine', 'pug');
+
+
+mongoose.connect('mongodb://localhost/studentdetails', {useNewUrlParser: true});
+var  studentdetails = new mongoose.Schema({
+  Username:String,
+  email:String,
+  message:String
+});
+var Contact = mongoose.model('contact', studentdetails);
+// const bodyparser = require("body-parser")
+// mongoose.connect('mongodb://localhost/studentdetails', {useNewUrlParser: true});
+// // defining schemas
+// const studentdetails = new mongoose.Schema({
+//   name:String,
+//   email:String,
+//   message:String
+// });
+// var details = mongoose.model('details', studentdetails);
+
+
+// express specific stuff
+app.use('/static', express.static('static'))
+
+// Set the template engine as pug
+app.set('view engine', 'pug')
+
+// Set the views directory
+app.set('views', path.join(__dirname, 'views'))
+ 
+// // Our pug demo endpoint
+// app.get("/demo", (req, res)=>{ 
+//     res.status(200).render('demo', { title: 'Hey Harry', message: 'Hello there and thanks for telling me how to use pubG!' })
+// });
+
+// app.get("/", (req, res)=>{ 
+//     res.status(200).send("This is homepage of my first express app with Harry");
+// });
+
+// app.get("/about", (req, res)=>{
+//     res.send("This is about page of my first express app with Harry");
+// });
+
+// app.post("/about", (req, res)=>{
+//     res.send("This is a post request about page of my first express app with Harry");
+// });
+// app.get("/this", (req, res)=>{
+//     res.status(404).send("This page is not found on my website cwh");
+// });
+//define mongoose schema
+
+app.use(express.urlencoded())
+
+app.get('/', (req, res)=>{
+  // const con = " this is best gameon internet"
+  // const params ={'title': 'pubg', content:con}
+  res.status(200).render('index.pug');
+
+
+})
+//start the server
+app.post('/', (req, res)=>{
+  console.log(req.body)
+  Username = req.body.Username
+  email = req.body.email
+  message=req.body.message
+
+  let outputToWrite = `the name of the client is ${Username}, email is ${email}, his/her message is ${message}`
+  fs.writeFileSync('output.txt', outputToWrite)
+  const params = {'message': 'Your form has been submitted successfully'
+}
+  var mydata = new Contact (req.body);
+  mydata.save().then(()=> {
+   res.send("this item saved on your database")
+  }).catch(()=> {
+    res.statuscode(400).send("not saved")
+  });
+  // name = req.body.name
+  // email = req.body.age
+  // message = req.body.message
+
+  //  let outputtowrite = 'the name of the client is ' + name + 'email :' + age + 'message :' + message
+  // fs.writeFileSync('output.txt', outputtowrite )
+  // console.log(request.body)
+  // res.statuscode(200).render('index.html',params)
+
+})
+
+app.listen(port, hostname, () => {
+        console.log(`Server running at http://${hostname}:${port}/`);
+      });
